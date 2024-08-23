@@ -1,11 +1,6 @@
 ﻿using CountryInfo.Core.Entities;
 using CountryInfo.Core.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace CountryInfo.Infrastructure.Services
 {
@@ -49,5 +44,4 @@ namespace CountryInfo.Infrastructure.Services
 
         // Implement other methods similarly...
     }
-
 }

@@ -1,4 +1,4 @@
-﻿namespace CountryInfo.Core.Interfaces
+﻿namespace CountryInfo.Core.Entities
 {
     public class Subregion
     {

@@ -1,10 +1,5 @@
 ﻿using CountryInfo.Core.Entities;
 using CountryInfo.Core.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CountryInfo.Application.Services
 {
@@ -37,5 +32,4 @@ namespace CountryInfo.Application.Services
             return await _restCountriesClient.GetSubregionDetailsAsync(subregionName);
         }
     }
-
 }

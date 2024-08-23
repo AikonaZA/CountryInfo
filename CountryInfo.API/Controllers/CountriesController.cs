@@ -32,5 +32,4 @@ namespace CountryInfo.API.Controllers
 
         // Implement other endpoints similarly...
     }
-
 }
