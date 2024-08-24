@@ -1,6 +1,21 @@
 @CountryInfo.API_HostAddress = http://localhost:5161
 
-GET {{CountryInfo.API_HostAddress}}/weatherforecast/
+### Get All Countries
+GET {{CountryInfo.API_HostAddress}}/api/countries
 Accept: application/json
 
-###
+### Example: Get details for a country named "Germany"
+GET {{CountryInfo.API_HostAddress}}/api/countries/Germany
+Accept: application/json
+
+### Example: Get details for a region named "Europe"
+GET {{CountryInfo.API_HostAddress}}/api/countries/region/Europe
+Accept: application/json
+
+### Example: Get details for a subregion named "Northern Europe"
+GET {{CountryInfo.API_HostAddress}}/api/countries/subregion/Northern%20Europe
+Accept: application/json
+
+### Example: Get details for countries with alpha codes "DE", "FR", "IT"
+GET {{CountryInfo.API_HostAddress}}/api/countries/codes?codes=DE,FR,IT
+Accept: application/json
