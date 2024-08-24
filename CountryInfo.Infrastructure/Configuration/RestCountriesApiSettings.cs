@@ -9,10 +9,5 @@
         public string RegionEndpoint { get; set; }
         public string SubregionEndpoint { get; set; }
         public string CountriesByCodesEndpoint { get; set; }
-
-        public string GetFullUrl(string endpoint)
-        {
-            return $"{BaseUrl}{ApiVersion}/{endpoint}";
-        }
     }
 }

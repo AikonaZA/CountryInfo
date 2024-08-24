@@ -1,26 +1,20 @@
 ﻿using CountryInfo.Core.Common;
 using CountryInfo.Core.Entities;
-using CountryInfo.Infrastructure.Configuration;
+using System.Net.Http;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace CountryInfo.Infrastructure.Services
 {
-    public abstract class BaseRestCountriesClient
+    public abstract class BaseApiClient(HttpClient httpClient)
     {
-        protected readonly HttpClient _httpClient;
-        protected readonly RestCountriesApiSettings _apiSettings;
+        protected readonly HttpClient _httpClient = httpClient;
 
-        protected BaseRestCountriesClient(HttpClient httpClient, RestCountriesApiSettings apiSettings)
-        {
-            _httpClient = httpClient;
-            _apiSettings = apiSettings;
-        }
-
-        protected async Task<NewResult<List<Country>>> GetCountriesAsync(string endpoint)
+        protected async Task<NewResult<List<Country>>> GetCountriesAsync(string fullUrl)
         {
             try
             {
-                var response = await _httpClient.GetAsync(_apiSettings.GetFullUrl(endpoint));
+                var response = await _httpClient.GetAsync(fullUrl);
 
                 if (!response.IsSuccessStatusCode)
                 {
