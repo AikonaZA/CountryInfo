@@ -9,14 +9,9 @@ namespace CountryInfo.Infrastructure.Services
     /// <summary>
     /// Provides a base class for API clients that handle common HTTP request operations.
     /// </summary>
-    public abstract class BaseApiClient
+    public abstract class BaseApiClient(HttpClient httpClient)
     {
-        protected readonly HttpClient _httpClient;
-
-        protected BaseApiClient(HttpClient httpClient)
-        {
-            _httpClient = httpClient;
-        }
+        protected readonly HttpClient _httpClient = httpClient;
 
         /// <summary>
         /// Sends an HTTP GET request to the specified URL and processes the response to retrieve a list of countries.
