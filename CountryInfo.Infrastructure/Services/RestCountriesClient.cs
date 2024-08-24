@@ -5,20 +5,13 @@ using System.Text.Json;
 
 namespace CountryInfo.Infrastructure.Services
 {
-    public class RestCountriesClient : IRestCountriesClient
+    public class RestCountriesClient(HttpClient httpClient) : IRestCountriesClient
     {
-        private readonly HttpClient _httpClient;
-
-        public RestCountriesClient(HttpClient httpClient)
-        {
-            _httpClient = httpClient;
-        }
-
         public async Task<NewResult<List<Country>>> GetAllCountriesAsync()
         {
             try
             {
-                var response = await _httpClient.GetAsync("https://restcountries.com/v3.1/all");
+                var response = await httpClient.GetAsync("https://restcountries.com/v3.1/all");
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -47,7 +40,7 @@ namespace CountryInfo.Infrastructure.Services
         {
             try
             {
-                var response = await _httpClient.GetAsync($"https://restcountries.com/v3.1/name/{countryName}");
+                var response = await httpClient.GetAsync($"https://restcountries.com/v3.1/name/{countryName}");
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -77,7 +70,7 @@ namespace CountryInfo.Infrastructure.Services
         {
             try
             {
-                var response = await _httpClient.GetAsync($"https://restcountries.com/v3.1/region/{regionName}");
+                var response = await httpClient.GetAsync($"https://restcountries.com/v3.1/region/{regionName}");
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -106,7 +99,7 @@ namespace CountryInfo.Infrastructure.Services
         {
             try
             {
-                var response = await _httpClient.GetAsync($"https://restcountries.com/v3.1/subregion/{subregionName}");
+                var response = await httpClient.GetAsync($"https://restcountries.com/v3.1/subregion/{subregionName}");
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -136,7 +129,7 @@ namespace CountryInfo.Infrastructure.Services
             try
             {
                 var codesQuery = string.Join(",", countryCodes);
-                var response = await _httpClient.GetAsync($"https://restcountries.com/v3.1/alpha?codes={codesQuery}");
+                var response = await httpClient.GetAsync($"https://restcountries.com/v3.1/alpha?codes={codesQuery}");
 
                 if (!response.IsSuccessStatusCode)
                 {
