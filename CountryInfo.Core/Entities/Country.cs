@@ -2,11 +2,13 @@
 {
     public class Country
     {
-        public string Name { get; set; }
-        public string Capital { get; set; }
-        public long Population { get; set; }
-        public List<string> Currencies { get; set; }
-        public List<string> Languages { get; set; }
-        public List<string> Borders { get; set; }
+        public Name name { get; set; }
+        public Dictionary<string, CurrencyDetail> currencies { get; set; }
+        public List<string> capital { get; set; }
+        public string region { get; set; }
+        public string subregion { get; set; }
+        public Dictionary<string, string> languages { get; set; }
+        public List<string> borders { get; set; }
+        public int population { get; set; }
     }
 }

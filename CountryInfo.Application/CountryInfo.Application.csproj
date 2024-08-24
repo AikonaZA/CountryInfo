@@ -9,6 +9,11 @@
   <ItemGroup>
     <ProjectReference Include="..\CountryInfo.Core\CountryInfo.Core.csproj" />
     <ProjectReference Include="..\CountryInfo.Infrastructure\CountryInfo.Infrastructure.csproj" />
+    <ProjectReference Include="..\CountryInfo.Shared\CountryInfo.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
   </ItemGroup>
 
 </Project>

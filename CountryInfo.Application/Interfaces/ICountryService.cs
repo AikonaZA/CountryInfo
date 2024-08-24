@@ -1,16 +1,16 @@
-﻿using CountryInfo.Core.Entities;
-using CountryInfo.Core.Common;
+﻿using CountryInfo.Core.Common;
+using CountryInfo.Shared.DTOs;
 
 namespace CountryInfo.Application.Interfaces
 {
     public interface ICountryService
     {
-        Task<NewResult<List<Country>>> GetAllCountriesAsync();
+        Task<NewResult<List<CountryDto>>> GetAllCountriesAsync();
 
-        Task<NewResult<Country>> GetCountryDetailsAsync(string countryName);
+        Task<NewResult<CountryDto>> GetCountryDetailsAsync(string countryName);
 
-        Task<NewResult<Region>> GetRegionDetailsAsync(string regionName);
+        Task<NewResult<RegionDto>> GetRegionDetailsAsync(string regionName);
 
-        Task<NewResult<Subregion>> GetSubregionDetailsAsync(string subregionName);
+        Task<NewResult<SubregionDto>> GetSubregionDetailsAsync(string subregionName);
     }
 }

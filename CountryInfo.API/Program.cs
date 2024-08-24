@@ -1,4 +1,5 @@
 using CountryInfo.Application.Interfaces;
+using CountryInfo.Application.Mappings;
 using CountryInfo.Application.Services;
 using CountryInfo.Infrastructure.Interfaces;
 using CountryInfo.Infrastructure.Services;
@@ -14,6 +15,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddHttpClient<IRestCountriesClient, RestCountriesClient>();
 builder.Services.AddScoped<ICountryService, CountryService>();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.Services.AddControllers();
 

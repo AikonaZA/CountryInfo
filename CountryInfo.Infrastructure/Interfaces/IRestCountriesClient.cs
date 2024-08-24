@@ -1,15 +1,16 @@
-﻿using CountryInfo.Core.Entities;
+﻿using CountryInfo.Core.Common;
+using CountryInfo.Core.Entities;
 
 namespace CountryInfo.Infrastructure.Interfaces
 {
     public interface IRestCountriesClient
     {
-        Task<List<Country>> GetAllCountriesAsync();
+        Task<NewResult<List<Country>>> GetAllCountriesAsync();
 
-        Task<Country> GetCountryDetailsAsync(string countryName);
+        Task<NewResult<Country>> GetCountryDetailsAsync(string countryName);
 
-        Task<Region> GetRegionDetailsAsync(string regionName);
+        Task<NewResult<List<Country>>> GetRegionDetailsAsync(string regionName);
 
-        Task<Subregion> GetSubregionDetailsAsync(string subregionName);
+        Task<NewResult<List<Country>>> GetSubregionDetailsAsync(string subregionName);
     }
 }
