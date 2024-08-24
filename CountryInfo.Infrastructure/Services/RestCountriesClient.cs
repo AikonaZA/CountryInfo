@@ -1,17 +1,21 @@
 ﻿using CountryInfo.Core.Common;
 using CountryInfo.Core.Entities;
+using CountryInfo.Infrastructure.Configuration;
 using CountryInfo.Infrastructure.Interfaces;
+using Microsoft.Extensions.Options;
 using System.Text.Json;
 
 namespace CountryInfo.Infrastructure.Services
 {
-    public class RestCountriesClient(HttpClient httpClient) : IRestCountriesClient
+    public class RestCountriesClient(HttpClient httpClient, IOptions<RestCountriesApiSettings> apiSettings) : IRestCountriesClient
     {
+        private readonly RestCountriesApiSettings _apiSettings = apiSettings.Value;
+
         public async Task<NewResult<List<Country>>> GetAllCountriesAsync()
         {
             try
             {
-                var response = await httpClient.GetAsync("https://restcountries.com/v3.1/all");
+                var response = await httpClient.GetAsync(_apiSettings.GetFullUrl(_apiSettings.AllCountriesEndpoint));
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -40,7 +44,8 @@ namespace CountryInfo.Infrastructure.Services
         {
             try
             {
-                var response = await httpClient.GetAsync($"https://restcountries.com/v3.1/name/{countryName}");
+                var endpoint = _apiSettings.CountryDetailsEndpoint.Replace("{countryName}", countryName);
+                var response = await httpClient.GetAsync(_apiSettings.GetFullUrl(endpoint));
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -70,7 +75,8 @@ namespace CountryInfo.Infrastructure.Services
         {
             try
             {
-                var response = await httpClient.GetAsync($"https://restcountries.com/v3.1/region/{regionName}");
+                var endpoint = _apiSettings.RegionEndpoint.Replace("{regionName}", regionName);
+                var response = await httpClient.GetAsync(_apiSettings.GetFullUrl(endpoint));
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -99,7 +105,8 @@ namespace CountryInfo.Infrastructure.Services
         {
             try
             {
-                var response = await httpClient.GetAsync($"https://restcountries.com/v3.1/subregion/{subregionName}");
+                var endpoint = _apiSettings.SubregionEndpoint.Replace("{subregionName}", subregionName);
+                var response = await httpClient.GetAsync(_apiSettings.GetFullUrl(endpoint));
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -129,7 +136,8 @@ namespace CountryInfo.Infrastructure.Services
             try
             {
                 var codesQuery = string.Join(",", countryCodes);
-                var response = await httpClient.GetAsync($"https://restcountries.com/v3.1/alpha?codes={codesQuery}");
+                var endpoint = _apiSettings.CountriesByCodesEndpoint.Replace("{codes}", codesQuery);
+                var response = await httpClient.GetAsync(_apiSettings.GetFullUrl(endpoint));
 
                 if (!response.IsSuccessStatusCode)
                 {

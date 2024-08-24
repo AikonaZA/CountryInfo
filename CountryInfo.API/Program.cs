@@ -1,23 +1,22 @@
 using CountryInfo.Application.Interfaces;
 using CountryInfo.Application.Mappings;
 using CountryInfo.Application.Services;
+using CountryInfo.Infrastructure.Configuration;
 using CountryInfo.Infrastructure.Interfaces;
 using CountryInfo.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Bind configuration section to RestCountriesApiSettings
+builder.Services.Configure<RestCountriesApiSettings>(builder.Configuration.GetSection("RestCountriesApi"));
 
+// Add services to the container.
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 builder.Services.AddHttpClient<IRestCountriesClient, RestCountriesClient>();
 builder.Services.AddScoped<ICountryService, CountryService>();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
-
-builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -29,9 +28,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
