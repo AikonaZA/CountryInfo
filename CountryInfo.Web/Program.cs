@@ -8,7 +8,7 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 // Register HttpClient with the base address of the API
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7186/") }); // Replace with your API's base URL
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7186/") });
 
 // Register CountryService
 builder.Services.AddScoped<CountryService>();
