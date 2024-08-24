@@ -11,12 +11,31 @@
 }
 else
 {
+    <div>
+        <label for="pageSize">Items per page:</label>
+        <select id="pageSize" @bind="pageSize" @bind:event="onchange">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+        </select>
+    </div>
+
     <table class="table">
         <thead>
             <tr>
-                <th>Country Name</th>
-                <th>Region</th>
-                <th>Subregion</th>
+                <th>
+                    Country Name
+                    <input type="text" @bind="countryNameFilter" @bind:event="oninput" placeholder="Search by name" />
+                </th>
+                <th>
+                    Region
+                    <input type="text" @bind="regionFilter" @bind:event="oninput" placeholder="Search by region" />
+                </th>
+                <th>
+                    Subregion
+                    <input type="text" @bind="subregionFilter" @bind:event="oninput" placeholder="Search by subregion" />
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -36,17 +55,31 @@ else
         <span>Page @currentPage of @totalPages</span>
         <button @onclick="NextPage" disabled="@(!CanNextPage)">Next</button>
     </div>
+
+    <div>
+        <label for="jumpToPage">Jump to page:</label>
+        <input id="jumpToPage" type="number" min="1" max="@totalPages" @bind="jumpToPage" @bind:event="onchange" />
+    </div>
 }
 
 @code {
     private List<CountryDto> countries;
+    private string countryNameFilter;
+    private string regionFilter;
+    private string subregionFilter;
     private int currentPage = 1;
     private int pageSize = 10;
-    private int totalPages => (int)Math.Ceiling((double)countries.Count / pageSize);
+    private int totalPages => (int)Math.Ceiling((double)FilteredCountries.Count() / pageSize);
+    private int jumpToPage = 1;
 
-    private IEnumerable<CountryDto> PagedCountries => countries
+    private IEnumerable<CountryDto> PagedCountries => FilteredCountries
         .Skip((currentPage - 1) * pageSize)
         .Take(pageSize);
+
+    private IEnumerable<CountryDto> FilteredCountries => countries
+        .Where(c => (string.IsNullOrEmpty(countryNameFilter) || c.Name.Contains(countryNameFilter, StringComparison.OrdinalIgnoreCase)) &&
+                    (string.IsNullOrEmpty(regionFilter) || c.Region.Contains(regionFilter, StringComparison.OrdinalIgnoreCase)) &&
+                    (string.IsNullOrEmpty(subregionFilter) || c.Subregion.Contains(subregionFilter, StringComparison.OrdinalIgnoreCase)));
 
     protected override async Task OnInitializedAsync()
     {
@@ -71,4 +104,18 @@ else
 
     private bool CanPreviousPage => currentPage > 1;
     private bool CanNextPage => currentPage < totalPages;
+
+    private void PageSizeChanged()
+    {
+        currentPage = 1;
+        jumpToPage = 1;
+    }
+
+    private void JumpToPage()
+    {
+        if (jumpToPage >= 1 && jumpToPage <= totalPages)
+        {
+            currentPage = jumpToPage;
+        }
+    }
 }
