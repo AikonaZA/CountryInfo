@@ -6,10 +6,23 @@ using System.Threading.Tasks;
 
 namespace CountryInfo.Infrastructure.Services
 {
-    public abstract class BaseApiClient(HttpClient httpClient)
+    /// <summary>
+    /// Provides a base class for API clients that handle common HTTP request operations.
+    /// </summary>
+    public abstract class BaseApiClient
     {
-        protected readonly HttpClient _httpClient = httpClient;
+        protected readonly HttpClient _httpClient;
 
+        protected BaseApiClient(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+        }
+
+        /// <summary>
+        /// Sends an HTTP GET request to the specified URL and processes the response to retrieve a list of countries.
+        /// </summary>
+        /// <param name="fullUrl">The full URL to send the HTTP GET request to.</param>
+        /// <returns>A <see cref="NewResult{T}"/> containing a list of countries or an appropriate error message.</returns>
         protected async Task<NewResult<List<Country>>> GetCountriesAsync(string fullUrl)
         {
             try
