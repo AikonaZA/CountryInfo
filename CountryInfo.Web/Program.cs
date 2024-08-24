@@ -1,25 +1,16 @@
-using CountryInfo.Web.Components;
+using CountryInfo.Web;
+using CountryInfo.Web.Services;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebAssemblyHostBuilder.CreateDefault(args);
+builder.RootComponents.Add<App>("#app");
+builder.RootComponents.Add<HeadOutlet>("head::after");
 
-// Add services to the container.
-builder.Services.AddRazorComponents();
+// Register HttpClient with the base address of the API
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7186/") }); // Replace with your API's base URL
 
-var app = builder.Build();
+// Register CountryService
+builder.Services.AddScoped<CountryService>();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
-
-app.UseHttpsRedirection();
-
-app.UseStaticFiles();
-app.UseAntiforgery();
-
-app.MapRazorComponents<App>();
-
-app.Run();
+await builder.Build().RunAsync();

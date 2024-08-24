@@ -1,0 +1,42 @@
+﻿@page "/countries"
+@using CountryInfo.Shared.DTOs
+@using CountryInfo.Web.Services
+@inject CountryService CountryService
+
+<h3>Countries</h3>
+
+@if (countries == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Country Name</th>
+                <th>Region</th>
+                <th>Subregion</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var country in countries)
+            {
+                <tr>
+                    <td>@country.Name</td>
+                    <td>@country.Region</td>
+                    <td>@country.Subregion</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<CountryDto> countries;
+
+    protected override async Task OnInitializedAsync()
+    {
+        countries = await CountryService.GetAllCountriesAsync();
+    }
+}
