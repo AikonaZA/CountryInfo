@@ -18,6 +18,9 @@ builder.Services.AddHttpClient<IRestCountriesClient, RestCountriesClient>();
 builder.Services.AddScoped<ICountryService, CountryService>();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
+// Add response caching
+builder.Services.AddResponseCaching();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -28,6 +31,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Use response caching middleware
+app.UseResponseCaching();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
