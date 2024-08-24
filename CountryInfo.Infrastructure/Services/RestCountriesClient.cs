@@ -130,5 +130,35 @@ namespace CountryInfo.Infrastructure.Services
                 return NewResult<List<Country>>.InternalServerError(null, $"Error occurred: {ex.Message}");
             }
         }
+
+        public async Task<NewResult<List<Country>>> GetCountriesByCodesAsync(List<string> countryCodes)
+        {
+            try
+            {
+                var codesQuery = string.Join(",", countryCodes);
+                var response = await _httpClient.GetAsync($"https://restcountries.com/v3.1/alpha?codes={codesQuery}");
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return NewResult<List<Country>>.Failed(null, $"Error occurred: {response.ReasonPhrase}");
+                }
+
+                var jsonResponse = await response.Content.ReadAsStringAsync();
+                var countries = JsonSerializer.Deserialize<List<Country>>(jsonResponse);
+
+                if (countries != null && countries.Count > 0)
+                {
+                    return NewResult<List<Country>>.Success(countries, "Countries retrieved successfully.");
+                }
+                else
+                {
+                    return NewResult<List<Country>>.NotFound(null, "No countries found for the provided codes.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return NewResult<List<Country>>.InternalServerError(null, $"Error occurred: {ex.Message}");
+            }
+        }
     }
 }

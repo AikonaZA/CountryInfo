@@ -116,5 +116,27 @@ namespace CountryInfo.Application.Services
                 return NewResult<SubregionDto>.Failed(null, $"Error occurred: {ex.Message}");
             }
         }
+
+        public async Task<NewResult<List<CountryDto>>> GetCountriesByCodesAsync(List<string> countryCodes)
+        {
+            try
+            {
+                var countriesResult = await _restCountriesClient.GetCountriesByCodesAsync(countryCodes);
+
+                if (countriesResult.ResponseCode == HttpResponseCode.Success && countriesResult.ResponseDetails != null)
+                {
+                    var countryDtos = _mapper.Map<List<CountryDto>>(countriesResult.ResponseDetails);
+                    return NewResult<List<CountryDto>>.Success(countryDtos, "Countries retrieved successfully.");
+                }
+                else
+                {
+                    return NewResult<List<CountryDto>>.NotFound(null, "No countries found for the provided codes.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return NewResult<List<CountryDto>>.Failed(null, $"Error occurred: {ex.Message}");
+            }
+        }
     }
 }

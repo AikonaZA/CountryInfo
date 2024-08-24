@@ -60,5 +60,19 @@ namespace CountryInfo.API.Controllers
             var response = await _countryService.GetSubregionDetailsAsync(subregionName);
             return StatusCode((int)response.ResponseCode, response);
         }
+
+
+        /// <summary>
+        /// Retrieves details for multiple countries by their alpha codes.
+        /// </summary>
+        /// <param name="codes">Comma-separated list of country alpha codes.</param>
+        /// <returns>A response containing details of the countries or an appropriate error message.</returns>
+        [HttpGet("codes")]
+        public async Task<IActionResult> GetCountriesByCodes([FromQuery] string codes)
+        {
+            var countryCodes = codes.Split(',').ToList();
+            var response = await _countryService.GetCountriesByCodesAsync(countryCodes);
+            return StatusCode((int)response.ResponseCode, response);
+        }
     }
 }
