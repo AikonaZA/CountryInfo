@@ -1,21 +1,14 @@
 ﻿using CountryInfo.Core.Entities;
-using CountryInfo.Core.Interfaces;
+using CountryInfo.Infrastructure.Interfaces;
 using System.Text.Json;
 
 namespace CountryInfo.Infrastructure.Services
 {
-    public class RestCountriesClient : IRestCountriesClient
+    public class RestCountriesClient(HttpClient httpClient) : IRestCountriesClient
     {
-        private readonly HttpClient _httpClient;
-
-        public RestCountriesClient(HttpClient httpClient)
-        {
-            _httpClient = httpClient;
-        }
-
         public async Task<List<Country>> GetAllCountriesAsync()
         {
-            var response = await _httpClient.GetAsync("https://restcountries.com/v3.1/all");
+            var response = await httpClient.GetAsync("https://restcountries.com/v3.1/all");
             response.EnsureSuccessStatusCode();
 
             var jsonResponse = await response.Content.ReadAsStringAsync();
@@ -24,7 +17,7 @@ namespace CountryInfo.Infrastructure.Services
 
         public async Task<Country> GetCountryDetailsAsync(string countryName)
         {
-            var response = await _httpClient.GetAsync($"https://restcountries.com/v3.1/name/{countryName}");
+            var response = await httpClient.GetAsync($"https://restcountries.com/v3.1/name/{countryName}");
             response.EnsureSuccessStatusCode();
 
             var jsonResponse = await response.Content.ReadAsStringAsync();

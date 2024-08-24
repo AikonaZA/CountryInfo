@@ -1,33 +1,28 @@
-﻿using CountryInfo.Core.Interfaces;
+﻿using CountryInfo.Application.Interfaces;
+using CountryInfo.Core.Common;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace CountryInfo.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CountriesController : ControllerBase
+    public class CountriesController(ICountryService countryService) : ControllerBase
     {
-        private readonly ICountryService _countryService;
-
-        public CountriesController(ICountryService countryService)
-        {
-            _countryService = countryService;
-        }
-
         [HttpGet]
         public async Task<IActionResult> GetAllCountries()
         {
-            var countries = await _countryService.GetAllCountriesAsync();
-            return Ok(countries);
+            var response = await countryService.GetAllCountriesAsync();
+
+            return StatusCode((int)response.ResponseCode, response);
         }
 
         [HttpGet("{name}")]
         public async Task<IActionResult> GetCountryDetails(string name)
         {
-            var country = await _countryService.GetCountryDetailsAsync(name);
-            if (country == null)
-                return NotFound();
-            return Ok(country);
+            var response = await countryService.GetCountryDetailsAsync(name);
+
+            return StatusCode((int)response.ResponseCode, response);
         }
 
         // Implement other endpoints similarly...

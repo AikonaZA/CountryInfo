@@ -1,5 +1,6 @@
+using CountryInfo.Application.Interfaces;
 using CountryInfo.Application.Services;
-using CountryInfo.Core.Interfaces;
+using CountryInfo.Infrastructure.Interfaces;
 using CountryInfo.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);

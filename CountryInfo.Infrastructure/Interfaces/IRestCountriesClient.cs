@@ -1,6 +1,6 @@
 ﻿using CountryInfo.Core.Entities;
 
-namespace CountryInfo.Core.Interfaces
+namespace CountryInfo.Infrastructure.Interfaces
 {
     public interface IRestCountriesClient
     {
