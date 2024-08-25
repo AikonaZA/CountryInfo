@@ -1,67 +1,62 @@
-# Technical Assessment: Country Information Web Application
+# CountryInfo Project
 
-## Project Overview
+## Overview
 
-The goal of this project is to create an ASP.NET web application that displays information about countries, regions, and subregions using the [REST Countries API](https://restcountries.com/). The application should feature a single page containing a table with available countries, and allow users to interact with this data to view more detailed information.
+The CountryInfo project consists of multiple layers, each encapsulated in its own project. These layers are:
 
-## Requirements
+1. **CountryInfo.Core**: Contains the core domain models and enums shared across the application.
+2. **CountryInfo.Shared**: Houses shared DTOs (Data Transfer Objects) that are used for communication between the API and the front-end.
+3. **CountryInfo.Infrastructure**: Contains infrastructure-related services, such as data access and external API integrations.
+4. **CountryInfo.Application**: Includes business logic and services that interact with the domain models and infrastructure.
+5. **CountryInfo.API**: An ASP.NET Core Web API that serves as the backend for managing country data, handling HTTP requests, and interacting with the application layer.
+6. **CountryInfo.Web**: A Blazor WebAssembly front-end that interacts with the API to display country information and provide a user interface.
 
-### 1. Main Table
+This document explains how to set up both the `CountryInfo.API` and `CountryInfo.Web` projects to run simultaneously in Visual Studio for testing and development.
 
-- **Display**: The main table should list all countries with the following information:
-  - Country Name
-  - Region
-  - Subregion
-- **Default View**: All countries should be displayed by default in the table.
+## Multi-Startup Configuration in Visual Studio
 
-### 2. Country Details
+To test the functionality of both the `CountryInfo.API` and `CountryInfo.Web` projects simultaneously, follow these steps:
 
-- **Interaction**: If the user clicks on a country name in the table, display the following details:
-  - Country Name
-  - Capital City
-  - Total Population
-  - Official Currencies
-  - Official Languages
-  - Neighboring Countries/Borders
-    - If the user clicks on one of the neighboring countries, the information for that country should be displayed.
+### Step 1: Open the Solution in Visual Studio
 
-### 3. Region Details
+- Open the solution that contains all the CountryInfo projects.
 
-- **Interaction**: If the user clicks on a region in the table, display the following details:
-  - Region Name
-  - Total Population of the Region
-  - List of Countries within the Region
-    - If the user clicks on one of these countries, the information for that country should be displayed.
-  - List of Subregions within the Region
-    - If the user clicks on one of these subregions, the information for that subregion should be displayed.
+### Step 2: Set Up Multi-Startup Projects
 
-### 4. Subregion Details (Optional)
+1. **Right-click on the solution** in the Solution Explorer.
+2. Select **"Configure Startup Projects..."** from the context menu.
+3. In the dialog that appears:
+   - Choose **"Multiple startup projects"**.
+   - Set the **Action** for both `CountryInfo.API` and `CountryInfo.Web` to **"Start"**.
+4. Click **Apply** then **OK** to save the configuration.
 
-- **Interaction**: If the user clicks on a subregion in the table, display the following details:
-  - Subregion Name
-  - Total Population of the Subregion
-  - The Region it belongs to
-    - If the user clicks on the region, the information for that region should be displayed.
-  - List of Countries within the Subregion
-    - If the user clicks on one of these countries, the information for that country should be displayed.
+### Step 3: Run the Solution
 
-## Technical Requirements
+- Press **F5** or click the **Start** button in Visual Studio to run both the `CountryInfo.API` and `CountryInfo.Web` projects simultaneously.
+- This will start the API server and the Blazor WebAssembly client, allowing you to test the full functionality of the application.
 
-- **Data Source**: All data should be sourced from the [REST Countries API](https://restcountries.com/) and called from the server. No direct API calls from the front-end.
-- **Front-end Framework**: Use any front-end framework of your choice to render the UI.
-- **NuGet Packages**: Welcome to use any NuGet packages necessary for the project.
+## Implementation Notes
 
-## Evaluation Criteria
+### Following Best Practices
 
-- **Coding Practices**: Evaluation of the quality of code, including adherence to best practices.
-- **Modularity**: Emphasis on the creation of maintainable and reusable components.
-- **Bonus Points**:
-  - Implementing server-side caching.
-  - Implementing pagination for the table.
-  - Implementing search/filter functionality for the table.
+I made every effort to adhere to the overall objectives and instructions for this project, implementing best practices where possible. This includes:
 
-## Submission
+- **Separation of Concerns**: The application is divided into distinct layers and projects, ensuring that each layer is responsible for a specific part of the application’s functionality.
+  - **Core Layer**: Handles domain models and shared enums.
+  - **Shared Layer**: Provides DTOs for communication between the API and the front-end.
+  - **Infrastructure Layer**: Manages data access and external API services.
+  - **Application Layer**: Implements business logic and service management.
+  - **API Layer**: Manages HTTP requests and interacts with the application layer.
+  - **Web Layer**: Provides the Blazor WebAssembly-based user interface.
+- **Modularity**: The codebase is structured to ensure maintainability and reusability.
 
-- **Git Repository**: House the project in a Git repository and send the link to the repository once the project is completed.
+### Areas for Improvement
 
----
+- **Unit Testing**: I did not implement unit tests for the various components in this project. Adding unit tests would significantly improve the robustness and reliability of the application.
+- **Null Reference Warnings**: I did not exhaustively review or resolve all compiler warnings related to potential null reference issues. Future improvements should address these warnings to enhance code safety and stability.
+
+## Conclusion
+
+This project is a demonstration of a basic yet functional full-stack application using ASP.NET Core and Blazor WebAssembly. While it meets the core requirements, there is always room for further refinement, especially in the areas of testing and error handling.
+
+Feel free to explore the code, and I welcome any feedback or suggestions for further improvements.
