@@ -9,6 +9,6 @@
         public string Subregion { get; set; }
         public List<string> Languages { get; set; }
         public List<string> Borders { get; set; }
-        public int Population { get; set; }
+        public long Population { get; set; }
     }
 }
