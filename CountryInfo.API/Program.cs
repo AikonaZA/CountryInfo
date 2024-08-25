@@ -21,16 +21,17 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 // Add response caching
 builder.Services.AddResponseCaching();
 
+var corsAllowedOrigin = builder.Configuration["ConnectionSettings:WebClient:CorsAllowedOrigin"];
+
 // Add CORS policy
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowSpecificOrigin",
-        builder =>
-        {
-            builder.WithOrigins("https://localhost:7139") // Blazor WebAssembly app URL
-                   .AllowAnyHeader()
-                   .AllowAnyMethod();
-        });
+    options.AddPolicy("WebClientPolicy", policyBuilder =>
+    {
+        policyBuilder.WithOrigins(corsAllowedOrigin)
+                     .AllowAnyHeader()
+                     .AllowAnyMethod();
+    });
 });
 
 var app = builder.Build();
@@ -44,8 +45,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// Use CORS
-app.UseCors("AllowSpecificOrigin");
+// Use the configured CORS policy
+app.UseCors("WebClientPolicy");
 
 // Use response caching middleware
 app.UseResponseCaching();
