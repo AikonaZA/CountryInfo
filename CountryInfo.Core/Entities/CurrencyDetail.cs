@@ -1,8 +1,13 @@
-﻿namespace CountryInfo.Core.Entities
+﻿using System.Text.Json.Serialization;
+
+namespace CountryInfo.Core.Entities
 {
     public class CurrencyDetail
     {
-        public string name { get; set; }
-        public string symbol { get; set; }
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
+
+        [JsonPropertyName("symbol")]
+        public string Symbol { get; set; }
     }
 }

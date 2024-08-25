@@ -36,8 +36,8 @@ namespace CountryInfo.Application.Services
                 countries => new RegionDto
                 {
                     Name = regionName,
-                    Countries = mapper.Map<List<CountryDto>>(countries),
-                    Population = countries.Sum(c => c.population)
+                    Countries = _mapper.Map<List<CountryDto>>(countries),
+                    Population = countries.Sum(c => c.Population)
                 }
             );
         }
@@ -51,9 +51,9 @@ namespace CountryInfo.Application.Services
                 countries => new SubregionDto
                 {
                     Name = subregionName,
-                    Region = countries.FirstOrDefault()?.region,
-                    Countries = mapper.Map<List<CountryDto>>(countries),
-                    Population = countries.Sum(c => c.population)
+                    Region = countries.FirstOrDefault()?.Region,
+                    Countries = _mapper.Map<List<CountryDto>>(countries),
+                    Population = countries.Sum(c => c.Population)
                 }
             );
         }

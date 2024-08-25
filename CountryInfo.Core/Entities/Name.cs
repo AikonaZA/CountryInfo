@@ -1,8 +1,13 @@
-﻿namespace CountryInfo.Core.Entities
+﻿using System.Text.Json.Serialization;
+
+namespace CountryInfo.Core.Entities
 {
     public class Name
     {
-        public string common { get; set; }
-        public string official { get; set; }
+        [JsonPropertyName("common")]
+        public string Common { get; set; }
+
+        [JsonPropertyName("official")]
+        public string Official { get; set; }
     }
 }
