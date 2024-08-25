@@ -1,6 +1,5 @@
 ﻿using CountryInfo.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
 
 namespace CountryInfo.API.Controllers
 {
@@ -48,7 +47,7 @@ namespace CountryInfo.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ResponseCache(Duration = 120, Location = ResponseCacheLocation.Client, VaryByQueryKeys = new[] { "name" })]
+        [ResponseCache(Duration = 120, Location = ResponseCacheLocation.Client, VaryByQueryKeys = ["name"])]
         public async Task<IActionResult> GetCountryDetails(string name)
         {
             var response = await countryService.GetCountryDetailsAsync(name);
@@ -70,7 +69,7 @@ namespace CountryInfo.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ResponseCache(Duration = 120, Location = ResponseCacheLocation.Client, VaryByQueryKeys = new[] { "regionName" })]
+        [ResponseCache(Duration = 120, Location = ResponseCacheLocation.Client, VaryByQueryKeys = ["regionName"])]
         public async Task<IActionResult> GetRegionDetails(string regionName)
         {
             var response = await countryService.GetRegionDetailsAsync(regionName);
@@ -92,7 +91,7 @@ namespace CountryInfo.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ResponseCache(Duration = 120, Location = ResponseCacheLocation.Client, VaryByQueryKeys = new[] { "subregionName" })]
+        [ResponseCache(Duration = 120, Location = ResponseCacheLocation.Client, VaryByQueryKeys = ["subregionName"])]
         public async Task<IActionResult> GetSubregionDetails(string subregionName)
         {
             var response = await countryService.GetSubregionDetailsAsync(subregionName);
@@ -114,7 +113,7 @@ namespace CountryInfo.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Client, VaryByQueryKeys = new[] { "codes" })]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Client, VaryByQueryKeys = ["codes"])]
         public async Task<IActionResult> GetCountriesByCodes([FromQuery] string codes)
         {
             var countryCodes = codes.Split(',').ToList();

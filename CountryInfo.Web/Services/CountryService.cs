@@ -9,21 +9,85 @@ namespace CountryInfo.Web.Services
     {
         public async Task<List<CountryDto>> GetAllCountriesAsync()
         {
-            // Call the API and get the wrapped response
             var apiResponse = await httpClient.GetFromJsonAsync<NewResult<List<CountryDto>>>("api/Countries");
 
-            // Check if the response code indicates success
             if (apiResponse.ResponseCode == HttpResponseCode.Success)
             {
-                // Return the actual data
                 return apiResponse.ResponseDetails;
             }
             else
             {
-                // Handle other response codes, log errors, etc.
-                // For now, just return an empty list
+                HandleErrorResponse(apiResponse.ResponseCode, apiResponse.ResponseMsg);
                 return [];
             }
+        }
+
+        public async Task<CountryDto> GetCountryDetailsAsync(string countryName)
+        {
+            var apiResponse = await httpClient.GetFromJsonAsync<NewResult<CountryDto>>($"api/Countries/{countryName}");
+
+            if (apiResponse.ResponseCode == HttpResponseCode.Success)
+            {
+                return apiResponse.ResponseDetails;
+            }
+            else
+            {
+                HandleErrorResponse(apiResponse.ResponseCode, apiResponse.ResponseMsg);
+                return null;
+            }
+        }
+
+        public async Task<List<CountryDto>> GetRegionDetailsAsync(string regionName)
+        {
+            var apiResponse = await httpClient.GetFromJsonAsync<NewResult<List<CountryDto>>>($"api/Countries/region/{regionName}");
+
+            if (apiResponse.ResponseCode == HttpResponseCode.Success)
+            {
+                return apiResponse.ResponseDetails;
+            }
+            else
+            {
+                HandleErrorResponse(apiResponse.ResponseCode, apiResponse.ResponseMsg);
+                return new List<CountryDto>();
+            }
+        }
+
+        public async Task<List<CountryDto>> GetSubregionDetailsAsync(string subregionName)
+        {
+            var apiResponse = await httpClient.GetFromJsonAsync<NewResult<List<CountryDto>>>($"api/Countries/subregion/{subregionName}");
+
+            if (apiResponse.ResponseCode == HttpResponseCode.Success)
+            {
+                return apiResponse.ResponseDetails;
+            }
+            else
+            {
+                HandleErrorResponse(apiResponse.ResponseCode, apiResponse.ResponseMsg);
+                return [];
+            }
+        }
+
+        public async Task<List<CountryDto>> GetCountriesByCodesAsync(List<string> countryCodes)
+        {
+            var codesQuery = string.Join(",", countryCodes);
+            var apiResponse = await httpClient.GetFromJsonAsync<NewResult<List<CountryDto>>>($"api/Countries/codes?codes={codesQuery}");
+
+            if (apiResponse.ResponseCode == HttpResponseCode.Success)
+            {
+                return apiResponse.ResponseDetails;
+            }
+            else
+            {
+                HandleErrorResponse(apiResponse.ResponseCode, apiResponse.ResponseMsg);
+                return [];
+            }
+        }
+
+        private void HandleErrorResponse(HttpResponseCode responseCode, string responseMsg)
+        {
+            // Handle different types of response codes and log the errors or show messages accordingly.
+            // This is where you can implement logging, showing user-friendly error messages, etc.
+            Console.WriteLine($"Error: {responseCode} - {responseMsg}");
         }
     }
 }

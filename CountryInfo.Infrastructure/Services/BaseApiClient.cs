@@ -1,8 +1,6 @@
 ﻿using CountryInfo.Core.Common;
 using CountryInfo.Core.Entities;
-using System.Net.Http;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace CountryInfo.Infrastructure.Services
 {

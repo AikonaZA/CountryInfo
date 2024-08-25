@@ -2,6 +2,7 @@
 @using CountryInfo.Shared.DTOs
 @using CountryInfo.Web.Services
 @inject CountryService CountryService
+@inject NavigationManager NavigationManager
 
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -59,7 +60,7 @@
                 @foreach (var country in PagedCountries)
                 {
                     <tr>
-                        <td>@country.Name</td>
+                        <td><a href="javascript:void(0)" @onclick="() => NavigateToCountry(country.Name)">@country.Name</a></td>
                         <td>@country.Region</td>
                         <td>@country.Subregion</td>
                     </tr>
@@ -153,5 +154,10 @@
         currentPage = 1;
         pageSize = 10;
         jumpToPage = 1;
+    }
+
+    private void NavigateToCountry(string countryName)
+    {
+        NavigationManager.NavigateTo($"/country/{countryName}");
     }
 }
