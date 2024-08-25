@@ -17,15 +17,6 @@ namespace CountryInfo.Application.Mappings
                 .ForMember(dest => dest.Languages, opt => opt.MapFrom(src => src.languages.Values.ToList()))
                 .ForMember(dest => dest.Borders, opt => opt.MapFrom(src => src.borders))
                 .ForMember(dest => dest.Population, opt => opt.MapFrom(src => src.population));
-
-            //// Add mappings for RegionDto and SubregionDto if needed
-            //CreateMap<Region, RegionDto>()
-            //    .ForMember(dest => dest.Countries, opt => opt.Ignore()) // handle countries separately
-            //    .ForMember(dest => dest.Population, opt => opt.MapFrom(src => src.Countries.Sum(c => c.Population)));
-
-            //CreateMap<Subregion, SubregionDto>()
-            //    .ForMember(dest => dest.Countries, opt => opt.Ignore()) // handle countries separately
-            //    .ForMember(dest => dest.Population, opt => opt.MapFrom(src => src.Countries.Sum(c => c.Population)));
         }
     }
 }
