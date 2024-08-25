@@ -1,0 +1,69 @@
+﻿@page "/subregion/{subregionName}"
+@using CountryInfo.Shared.DTOs
+@using CountryInfo.Web.Services
+@inject CountryService CountryService
+@inject NavigationManager NavigationManager
+
+<h3>Subregion Details</h3>
+
+@if (subregion == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+            <h4>@subregion.Name</h4>
+        </div>
+        <div class="card-body">
+            <p><strong>Total Population:</strong> @subregion.Population</p>
+            <p><strong>Region:</strong> <a href="javascript:void(0)" @onclick="() => NavigateToRegion(subregion.Region)">@subregion.Region</a></p>
+
+            <h5>Countries</h5>
+            <ul>
+                @foreach (var country in subregion.Countries)
+                {
+                    <li>
+                        <a href="javascript:void(0)" @onclick="() => NavigateToCountry(country.Name)">@country.Name</a>
+                    </li>
+                }
+            </ul>
+        </div>
+        <div class="card-footer">
+            <button class="btn btn-secondary" @onclick="GoBack">Back</button>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public string subregionName { get; set; }
+
+    private SubregionDto subregion;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await LoadSubregionDetails();
+    }
+
+    private async Task LoadSubregionDetails()
+    {
+        subregion = await CountryService.GetSubregionDetailsAsync(subregionName);
+    }
+
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo("/countries");
+    }
+
+    private void NavigateToCountry(string countryName)
+    {
+        NavigationManager.NavigateTo($"/country/{countryName}");
+    }
+
+    private void NavigateToRegion(string regionName)
+    {
+        NavigationManager.NavigateTo($"/region/{regionName}");
+    }
+}

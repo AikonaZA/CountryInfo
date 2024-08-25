@@ -23,11 +23,22 @@ else
                 <p><strong>Official Languages:</strong> @string.Join(", ", country.Languages)</p>
                 <p><strong>Neighboring Countries/Borders:</strong></p>
                 <ul>
-                @foreach (var border in country.Borders)
+                @if (neighboringCountries == null)
                 {
-                            <li>
-                                <a href="javascript:void(0)" @onclick="() => NavigateToCountry(border)">@border</a>
-                            </li>
+                            <li>Loading...</li>
+                }
+                else if (neighboringCountries.Count == 0)
+                {
+                            <li>No neighboring countries.</li>
+                }
+                else
+                {
+                    @foreach (var neighbor in neighboringCountries)
+                    {
+                                    <li>
+                                        <a href="javascript:void(0)" @onclick="() => NavigateToCountry(neighbor.Name)">@neighbor.Name</a>
+                                    </li>
+                    }
                 }
                 </ul>
             </div>
@@ -42,10 +53,25 @@ else
     public string countryName { get; set; }
 
     private CountryDto country;
+    private List<CountryDto> neighboringCountries;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
+    {
+        await LoadCountryDetails();
+    }
+
+    private async Task LoadCountryDetails()
     {
         country = await CountryService.GetCountryDetailsAsync(countryName);
+
+        if (country != null && country.Borders != null && country.Borders.Count > 0)
+        {
+            neighboringCountries = await CountryService.GetCountriesByCodesAsync(country.Borders);
+        }
+        else
+        {
+            neighboringCountries = new List<CountryDto>();
+        }
     }
 
     private void GoBack()

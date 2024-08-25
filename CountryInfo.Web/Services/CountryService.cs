@@ -18,7 +18,7 @@ namespace CountryInfo.Web.Services
             else
             {
                 HandleErrorResponse(apiResponse.ResponseCode, apiResponse.ResponseMsg);
-                return [];
+                return new List<CountryDto>();
             }
         }
 
@@ -37,9 +37,9 @@ namespace CountryInfo.Web.Services
             }
         }
 
-        public async Task<List<CountryDto>> GetRegionDetailsAsync(string regionName)
+        public async Task<RegionDto> GetRegionDetailsAsync(string regionName)
         {
-            var apiResponse = await httpClient.GetFromJsonAsync<NewResult<List<CountryDto>>>($"api/Countries/region/{regionName}");
+            var apiResponse = await httpClient.GetFromJsonAsync<NewResult<RegionDto>>($"api/Countries/region/{regionName}");
 
             if (apiResponse.ResponseCode == HttpResponseCode.Success)
             {
@@ -48,13 +48,13 @@ namespace CountryInfo.Web.Services
             else
             {
                 HandleErrorResponse(apiResponse.ResponseCode, apiResponse.ResponseMsg);
-                return new List<CountryDto>();
+                return null;
             }
         }
 
-        public async Task<List<CountryDto>> GetSubregionDetailsAsync(string subregionName)
+        public async Task<SubregionDto> GetSubregionDetailsAsync(string subregionName)
         {
-            var apiResponse = await httpClient.GetFromJsonAsync<NewResult<List<CountryDto>>>($"api/Countries/subregion/{subregionName}");
+            var apiResponse = await httpClient.GetFromJsonAsync<NewResult<SubregionDto>>($"api/Countries/subregion/{subregionName}");
 
             if (apiResponse.ResponseCode == HttpResponseCode.Success)
             {
@@ -63,7 +63,7 @@ namespace CountryInfo.Web.Services
             else
             {
                 HandleErrorResponse(apiResponse.ResponseCode, apiResponse.ResponseMsg);
-                return [];
+                return null;
             }
         }
 
@@ -79,14 +79,12 @@ namespace CountryInfo.Web.Services
             else
             {
                 HandleErrorResponse(apiResponse.ResponseCode, apiResponse.ResponseMsg);
-                return [];
+                return new List<CountryDto>();
             }
         }
 
         private void HandleErrorResponse(HttpResponseCode responseCode, string responseMsg)
         {
-            // Handle different types of response codes and log the errors or show messages accordingly.
-            // This is where you can implement logging, showing user-friendly error messages, etc.
             Console.WriteLine($"Error: {responseCode} - {responseMsg}");
         }
     }

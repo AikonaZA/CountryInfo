@@ -61,8 +61,8 @@
                 {
                     <tr>
                         <td><a href="javascript:void(0)" @onclick="() => NavigateToCountry(country.Name)">@country.Name</a></td>
-                        <td>@country.Region</td>
-                        <td>@country.Subregion</td>
+                        <td><a href="javascript:void(0)" @onclick="() => NavigateToRegion(country.Region)">@country.Region</a></td>
+                        <td><a href="javascript:void(0)" @onclick="() => NavigateToSubregion(country.Subregion)">@country.Subregion</a></td>
                     </tr>
                 }
             </tbody>
@@ -159,5 +159,15 @@
     private void NavigateToCountry(string countryName)
     {
         NavigationManager.NavigateTo($"/country/{countryName}");
+    }
+
+    private void NavigateToRegion(string regionName)
+    {
+        NavigationManager.NavigateTo($"/region/{regionName}");
+    }
+
+    private void NavigateToSubregion(string subregionName)
+    {
+        NavigationManager.NavigateTo($"/subregion/{subregionName}");
     }
 }
